@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*; 
 
-
 /* I am not doing strong error checking. Sorry... */
 
 public class WordCountJ{
@@ -18,7 +17,8 @@ public class WordCountJ{
             System.out.println(args[i]);
         }
 
-        Map<String, Integer>wordCount;
+        List< Map<String, Integer> > wordCounts 
+            = new ArrayList< Map<String, Integer> >();
 
         ThreadCountOneFile t1 = new ThreadCountOneFile("text.txt");
         ThreadCountOneFile t2 = new ThreadCountOneFile("text2.txt");
@@ -31,20 +31,14 @@ public class WordCountJ{
         } catch (Exception ex){}
 
 
-        wordCount = t1.getWordCount();
+        wordCounts.add( t1.getWordCount() );
         System.out.println("==========");
-        for (Map.Entry<String, Integer> entry : wordCount.entrySet())
-        {
-            System.out.println(entry.getKey() + "/" + entry.getValue());
+        for ( Map<String, Integer> wcount: wordCounts ) {
+            for (Map.Entry<String, Integer> entry : wcount.entrySet())
+            {
+                System.out.println(entry.getKey() + "/" + entry.getValue());
+            }           
         }
-
-        wordCount = t2.getWordCount();
-        System.out.println("==========");
-        for (Map.Entry<String, Integer> entry : wordCount.entrySet())
-        {
-            System.out.println(entry.getKey() + "/" + entry.getValue());
-        }
-
     }
 }
 
