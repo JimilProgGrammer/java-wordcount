@@ -20,20 +20,24 @@ public class WordCountJ{
         List< Map<String, Integer> > wordCounts 
             = new ArrayList< Map<String, Integer> >();
 
-        ThreadCountOneFile t1 = new ThreadCountOneFile("text.txt");
-        ThreadCountOneFile t2 = new ThreadCountOneFile("text2.txt");
-        t1.start();
-        t2.start();
-        
-        try{
-            t1.join();
-            t2.join();
-        } catch (Exception ex){}
+        // Build thread list
+        ArrayList<ThreadCountOneFile> threadlist 
+            = new ArrayList<ThreadCountOneFile>();
+        for ( int i = 0 ; i < args.length ; i++ ) {
+            ThreadCountOneFile t = new ThreadCountOneFile(args[i]);
+            threadlist.add( t );
+            t.start();
+        }
 
+        for ( ThreadCountOneFile t: threadlist ) {
+            try{
+                t.join();
+                wordCounts.add( t.getWordCount() );
+            } catch (Exception ex){}
+        }
 
-        wordCounts.add( t1.getWordCount() );
-        System.out.println("==========");
         for ( Map<String, Integer> wcount: wordCounts ) {
+            System.out.println("==========");
             for (Map.Entry<String, Integer> entry : wcount.entrySet())
             {
                 System.out.println(entry.getKey() + "/" + entry.getValue());
