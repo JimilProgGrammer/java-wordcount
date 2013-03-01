@@ -7,9 +7,15 @@ public class WordCountJ{
         Map<String, Integer>wordCount;
 
         ThreadCountOneFile t1 = new ThreadCountOneFile("text.txt");
+        ThreadCountOneFile t2 = new ThreadCountOneFile("text2.txt");
         t1.start();
+        t2.start();
+        
+        try{
+            t1.join();
+            t2.join();
+        } catch (Exception ex){}
 
-        t1.join();
 
         wordCount = t1.getWordCount();
         System.out.println("==========");
@@ -17,6 +23,14 @@ public class WordCountJ{
         {
             System.out.println(entry.getKey() + "/" + entry.getValue());
         }
+
+        wordCount = t2.getWordCount();
+        System.out.println("==========");
+        for (Map.Entry<String, Integer> entry : wordCount.entrySet())
+        {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+        }
+
     }
 }
 
@@ -60,10 +74,12 @@ class ThreadCountOneFile extends Thread
             br.close();
 
             // Display map
+            /*
             for (Map.Entry<String, Integer> entry : _wordCount.entrySet())
             {
                 System.out.println(entry.getKey() + "/" + entry.getValue());
             }
+            */
 
             } catch(IOException e) {
                 System.out.print("Exception");
