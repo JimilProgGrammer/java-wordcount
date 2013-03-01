@@ -36,12 +36,21 @@ public class WordCountJ{
             } catch (Exception ex){}
         }
 
+        Map<String, Integer> totalWCount = new HashMap<String, Integer>();
         for ( Map<String, Integer> wcount: wordCounts ) {
-            System.out.println("==========");
             for (Map.Entry<String, Integer> entry : wcount.entrySet())
             {
-                System.out.println(entry.getKey() + "/" + entry.getValue());
+                String iword = entry.getKey();
+                Integer icount = entry.getValue();
+                Integer count = totalWCount.get(iword);
+                totalWCount.put(iword, count == null ? icount : count + icount);
             }           
+        }
+        
+        System.out.println("-- Display the total word count --");
+        for ( Map.Entry<String, Integer> entry : totalWCount.entrySet() )
+        {
+            System.out.println(entry.getKey() + "      " + entry.getValue());
         }
     }
 }
@@ -70,14 +79,14 @@ class ThreadCountOneFile extends Thread
             String line;
             while ((line = br.readLine()) != null) {
                 // process the line.
-                System.out.println("---");
+                //System.out.println("---");
                 for (String word: line.split("\\s+")){
                     // trim prefixing nonalphameric
                     word = word.replaceFirst("[^a-zA-Z0-9\\s]*", "");
                     word = new StringBuffer(word).reverse().toString();
                     word = word.replaceFirst("[^a-zA-Z0-9\\s]*", "");
                     word = new StringBuffer(word).reverse().toString();
-                    System.out.println(word);
+                    //System.out.println(word);
 
                     Integer count = _wordCount.get(word);
                     _wordCount.put(word, count == null ? 1 : count + 1);
