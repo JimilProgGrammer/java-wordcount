@@ -1,9 +1,23 @@
 import java.io.*;
 import java.util.*; 
 
-public class WordCountJ{
 
+/* I am not doing strong error checking. Sorry... */
+
+public class WordCountJ{
     public static void main(String args[]){
+        int nfiles; 
+        nfiles = args.length;
+        if ( nfiles == 0 ) {
+            System.out.println("Usage: java WordCountJ inputfile0 inputfile1 ...");
+            System.exit(0); 
+        }
+
+        System.out.println("Input files:");
+        for ( int i = 0 ; i < args.length ; i++ ) {
+            System.out.println(args[i]);
+        }
+
         Map<String, Integer>wordCount;
 
         ThreadCountOneFile t1 = new ThreadCountOneFile("text.txt");
